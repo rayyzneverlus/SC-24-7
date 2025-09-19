@@ -1,45 +1,60 @@
 #!/bin/bash
-# SCRIPT 24/7 BY FAREL - SUPER FINAL VERSION
 
-start_time=$(date +%s)
+# Warna
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color
 
-clear
-echo -e "\033[1;36m╔════════════════════════════════════╗\033[0m"
-echo -e "        \033[1;32m🚀 SCRIPT 24/7 BY FAREL 🚀\033[0m"
-echo -e "\033[1;36m╚════════════════════════════════════╝\033[0m"
-echo -e "\033[1;33mTHANKS FOR USING THIS SCRIPT!\033[0m"
-echo ""
-echo -e "🙏 Thanks To:"
-echo -e " - Allah SWT"
-echo -e " - Farel (Developer)"
-echo -e "\033[1;36m====================================\033[0m"
-echo -e "\033[1;35mTekan 'q' lalu ENTER untuk keluar.\033[0m"
-echo ""
+# Fungsi Loop
+start_loop() {
+    START_TIME=$(date +%s)
 
-# Loop utama
-while true; do
-    # Cek input user (1 detik sekali)
-    read -t 1 -n 1 input
-    if [[ $input == "q" ]]; then
-        echo -e "\n\033[1;31m[✘] SCRIPT dihentikan oleh user.\033[0m"
-        break
-    fi
+    while true; do
+        # Hitung uptime
+        NOW=$(date +%s)
+        UPTIME=$((NOW - START_TIME))
+        HOURS=$((UPTIME / 3600))
+        MINUTES=$(((UPTIME % 3600) / 60))
+        SECONDS=$((UPTIME % 60))
 
-    # Hitung uptime
-    now=$(date +%s)
-    uptime=$((now - start_time))
-    hours=$((uptime / 3600))
-    minutes=$(((uptime % 3600) / 60))
-    seconds=$((uptime % 60))
+        # Refresh layar
+        clear
+        echo -e "${CYAN}============================================"
+        echo -e "        SCRIPT 24/7 BY FAREL"
+        echo -e "============================================${NC}"
+        echo -e "${GREEN}Uptime: ${HOURS}h ${MINUTES}m ${SECONDS}s${NC}"
+        echo -e "${YELLOW}Press 'q' to exit${NC}"
+        echo -e ""
+        echo -e "${CYAN}Thanks To:${NC}"
+        echo -e " - Allah SWT"
+        echo -e " - Farel (Developer)"
+        echo -e "${CYAN}============================================${NC}"
 
-    # Efek blinking RUNNING
-    echo -e "\033[5;32m[✔] SCRIPT 24/7 BY FAREL RUNNING...\033[0m"
-    echo -e "\033[1;34m⏳ Uptime: ${hours}h ${minutes}m ${seconds}s\033[0m"
-
-    # Countdown dengan animasi titik
-    for i in 3 2 1; do
-        echo -ne "\033[1;33mNext loop in ${i}s $(printf '.%.0s' $(seq 1 $((4 - i))))\033[0m\r"
-        sleep 1
+        # Tunggu input 1 detik sambil cek exit
+        read -t 1 -n 1 key
+        if [[ $key == "q" ]]; then
+            echo -e "${RED}Exiting loop...${NC}"
+            break
+        fi
     done
-    echo -e "                                   \r"
+}
+
+# Menu utama
+while true; do
+    clear
+    echo -e "${CYAN}============================================"
+    echo -e "        SCRIPT 24/7 BY FAREL"
+    echo -e "============================================${NC}"
+    echo -e "1. Start Loop"
+    echo -e "2. Exit"
+    echo -ne "${YELLOW}Choose an option [1-2]: ${NC}"
+    read choice
+
+    case $choice in
+        1) start_loop ;;
+        2) echo -e "${RED}Exiting script...${NC}"; exit 0 ;;
+        *) echo -e "${RED}Invalid choice!${NC}"; sleep 1 ;;
+    esac
 done
